@@ -1,0 +1,4 @@
+# Dependencies will be added as the project develops.
+# Example:
+flask
+pytest
