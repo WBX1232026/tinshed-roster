@@ -7,12 +7,12 @@
 - **Crew calls** (US-6): record roles and the number needed per performance.
 - **Assignments** (US-7, US-8, US-9): assign, change and remove assignments; new assignments default to "unconfirmed"; the one-role-per-performance rule is enforced.
 - **Views** (US-10, US-11): roster view showing filled and open positions; personal roster view listing a volunteer's own assignments.
-- **Requirements artefacts**: user stories with acceptance criteria (see `docs/user-stories.md`) and an acceptance testing record (see `docs/acceptance-testing.md`).
+- **Requirements artefacts**: requirements analysis and scope definition (`docs/requirements.md`), user stories with acceptance criteria (`docs/user-stories.md`), meeting minutes (`docs/meeting-minutes.md`), and an acceptance testing record (`docs/acceptance-testing.md`).
 
 ## 2. What was not delivered, and why
 
-- Out-of-scope items listed in the README (ticketing, membership fees, RSA/Blue Card matching, rehearsals and casting, venue booking clashes, grant acquittal, equipment inventory, email/SMS notifications, shift swaps, hours reporting, TicketNest integration) remain in the product backlog and were not part of this sprint.
-- (Fill in any sprint items that slipped, with the reason — e.g. time constraints or dependency on another story.)
+- Out-of-scope items (from `docs/requirements.md` and the README) are deferred to the product backlog and were not part of this sprint: ticketing and box office sales, membership fees and renewals, RSA/Blue Card/qualification matching, rehearsals and casting, venue booking clashes, grant acquittal, equipment inventory, email/SMS notifications, volunteer shift swaps, hours reporting, and TicketNest integration.
+- No in-scope story was knowingly dropped; any partial work is listed under Known issues below.
 
 ## 3. Setup and run instructions from GitHub
 
@@ -28,7 +28,10 @@ pytest                     # run the tests
 
 ## 4. Known issues and limitations
 
-- (Fill in as applicable — e.g. validation gaps such as empty names or duplicate phone numbers, or any edge cases not yet covered.)
+- Input validation is lightweight: empty names and duplicate contact details are not yet rejected with dedicated messages.
+- The interface is text-driven (CLI); no web or mobile UI is included this sprint.
+- No email/SMS notifications (deferred to the backlog), so volunteers must check their personal roster view for assignments.
+- The one-role rule is enforced per performance; cross-performance conflicts (e.g. the same volunteer on two simultaneous performances) are not checked.
 
 ## 5. Credentials, configuration and environment
 
@@ -39,5 +42,7 @@ pytest                     # run the tests
 ## 6. Recommended next-sprint backlog
 
 - Strengthen validation (empty names, duplicate contact details).
-- Add automated tests for edge cases identified during acceptance testing.
+- Add automated tests for the edge cases identified during acceptance testing.
+- Consider a simple web UI for the coordinator and volunteers.
+- Cross-performance conflict checking for the one-role rule.
 - Track stories against Jira and record decisions in Confluence as required by the Definition of Done.
