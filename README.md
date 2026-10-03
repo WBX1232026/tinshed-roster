@@ -49,6 +49,18 @@ python data/seed.py
 pytest
 ```
 
+## Project structure
+
+```text
+tinshed-roster/
+├── src/          # application code
+├── templates/    # HTML templates
+├── tests/        # automated tests
+├── data/         # sample data
+├── deploy/       # deployment scripts
+└── README.md
+```
+
 ## Scope
 
 - Volunteers
