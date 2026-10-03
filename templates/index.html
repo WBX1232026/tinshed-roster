@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Productions - Tinshed Roster{% endblock %}
+{% block content %}
+<h2>Productions</h2>
+{% if productions %}
+<ul>
+    {% for production in productions %}
+    <li>
+        <a href="{{ url_for('views.production_detail', production_id=production.id) }}">{{ production.title }}</a>
+        ({{ production.performance_count }} performances)
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No productions yet. Seed the database first (<code>python data/seed.py</code>).</p>
+{% endif %}
+{% endblock %}

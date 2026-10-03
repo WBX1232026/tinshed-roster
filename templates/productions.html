@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ production.title }} - Tinshed Roster{% endblock %}
+{% block content %}
+<h2>{{ production.title }}</h2>
+{% for performance in performances %}
+<h3>{{ performance.performance_date }} at {{ performance.start_time }}</h3>
+{% if performance.gaps %}
+<table>
+    <tr>
+        <th>Role</th>
+        <th>Needed</th>
+        <th>Assigned</th>
+        <th>Open</th>
+    </tr>
+    {% for gap in performance.gaps %}
+    <tr>
+        <td>{{ gap.role }}</td>
+        <td>{{ gap.needed }}</td>
+        <td>{{ gap.assigned }}</td>
+        <td class="{{ 'hole' if gap.open else 'filled' }}">{{ gap.open }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No crew call defined for this performance yet.</p>
+{% endif %}
+{% endfor %}
+{% endblock %}
