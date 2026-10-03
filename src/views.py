@@ -48,6 +48,7 @@ def production_detail(production_id: int):
     for performance in models.performances_for_production(production_id):
         performance_list.append(
             {
+                "id": performance.id,
                 "performance_date": performance.performance_date.isoformat(),
                 "start_time": performance.start_time,
                 "gaps": models.roster_gaps(performance.id),
@@ -57,4 +58,38 @@ def production_detail(production_id: int):
         "productions.html",
         production=production,
         performances=performance_list,
+    )
+
+
+@views_bp.route("/performances/<int:performance_id>/roster")
+def roster(performance_id: int):
+    """Roster for one performance: roles, how many are filled and open, and who is on."""
+    performance = models.performances.get(performance_id)
+    if performance is None:
+        return "Performance not found", 404
+    production = models.productions.get(performance.production_id)
+    assigned_names: dict[str, list[str]] = {}
+    for assignment in models.assignments_for_performance(performance_id):
+        assigned_names.setdefault(assignment.role, []).append(
+            models.find_volunteer(assignment.volunteer_id).name
+        )
+    rows = []
+    for gap in models.roster_gaps(performance_id):
+        rows.append(
+            {
+                "role": gap["role"],
+                "needed": gap["needed"],
+                "assigned": gap["assigned"],
+                "open": gap["open"],
+                "names": sorted(assigned_names.get(gap["role"], [])),
+            }
+        )
+    return render_template(
+        "roster.html",
+        production=production,
+        performance={
+            "performance_date": performance.performance_date.isoformat(),
+            "start_time": performance.start_time,
+        },
+        rows=rows,
     )
