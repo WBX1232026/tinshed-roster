@@ -25,6 +25,12 @@ def index():
     return render_template("index.html", productions=production_list)
 
 
+@views_bp.route("/productions")
+def productions():
+    """All productions (same view as the index; kept for the nav link)."""
+    return index()
+
+
 @views_bp.route("/volunteers")
 def volunteers():
     volunteer_list = sorted(
