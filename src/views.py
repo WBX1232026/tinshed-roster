@@ -61,6 +61,35 @@ def production_detail(production_id: int):
     )
 
 
+@views_bp.route("/volunteers/<int:volunteer_id>")
+def personal(volunteer_id: int):
+    """A volunteer's own assignments across the season."""
+    volunteer = models.volunteers.get(volunteer_id)
+    if volunteer is None:
+        return "Volunteer not found", 404
+    assignment_list = []
+    for assignment in models.assignments_for_volunteer(volunteer_id):
+        performance = models.performances.get(assignment.performance_id)
+        production = models.productions.get(performance.production_id)
+        assignment_list.append(
+            {
+                "role": assignment.role,
+                "status": assignment.status,
+                "production_title": production.title,
+                "performance_date": performance.performance_date.isoformat(),
+                "start_time": performance.start_time,
+            }
+        )
+    assignment_list.sort(
+        key=lambda a: (a["performance_date"], a["start_time"], a["role"])
+    )
+    return render_template(
+        "personal.html",
+        volunteer=volunteer,
+        assignments=assignment_list,
+    )
+
+
 @views_bp.route("/performances/<int:performance_id>/roster")
 def roster(performance_id: int):
     """Roster for one performance: roles, how many are filled and open, and who is on."""

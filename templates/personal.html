@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ volunteer.name }} — Tinshed Roster{% endblock %}
+{% block content %}
+<h2>{{ volunteer.name }}</h2>
+{% if assignments %}
+<table>
+    <tr>
+        <th>Production</th>
+        <th>Date</th>
+        <th>Start time</th>
+        <th>Role</th>
+        <th>Status</th>
+    </tr>
+    {% for assignment in assignments %}
+    <tr>
+        <td>{{ assignment.production_title }}</td>
+        <td>{{ assignment.performance_date }}</td>
+        <td>{{ assignment.start_time }}</td>
+        <td>{{ assignment.role }}</td>
+        <td>{{ assignment.status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p class="empty">No assignments yet.</p>
+{% endif %}
+<p><a href="{{ url_for('views.volunteers') }}">&larr; Back to volunteers</a></p>
+{% endblock %}
