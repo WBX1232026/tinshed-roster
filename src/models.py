@@ -16,10 +16,13 @@ from datetime import date, datetime
 volunteers: dict[int, "Volunteer"] = {}
 productions: dict[int, "Production"] = {}
 performances: dict[int, "Performance"] = {}
+crew_calls: dict[int, dict[str, int]] = {}
+assignments: dict[int, "Assignment"] = {}
 
 _next_volunteer_id = 1
 _next_production_id = 1
 _next_performance_id = 1
+_next_assignment_id = 1
 
 _TIME_RE = re.compile(r"^([01]\d|2[0-3]):[0-5]\d$")
 
@@ -127,3 +130,122 @@ def performances_for_production(production_id: int) -> list[Performance]:
         (p for p in performances.values() if p.production_id == production_id),
         key=lambda p: (p.performance_date, p.start_time),
     )
+
+
+@dataclass
+class Assignment:
+    """One volunteer filling one role at one performance."""
+
+    id: int
+    performance_id: int
+    volunteer_id: int
+    role: str
+    status: str = "unconfirmed"
+
+
+def set_crew_call(performance_id: int, role: str, needed: int) -> None:
+    """Set (or update) how many volunteers a role needs for a performance."""
+    if performance_id not in performances:
+        raise ValueError(f"No performance with id {performance_id}.")
+    role = (role or "").strip()
+    if not role:
+        raise ValueError("Role name is required.")
+    if not isinstance(needed, int) or needed < 1:
+        raise ValueError("Number needed must be a positive whole number.")
+    crew_calls.setdefault(performance_id, {})[role] = needed
+
+
+def crew_call_for(performance_id: int) -> dict[str, int]:
+    """Return {role: needed} for one performance (empty if none defined)."""
+    return dict(crew_calls.get(performance_id, {}))
+
+
+def create_assignment(performance_id: int, role: str, volunteer_id: int) -> Assignment:
+    """Assign a volunteer to a role at a performance.
+
+    Enforces the one-role rule: a volunteer may hold at most one role in the
+    same performance. Raises ValueError if the volunteer is already assigned
+    to this performance.
+    """
+    global _next_assignment_id
+    if performance_id not in performances:
+        raise ValueError(f"No performance with id {performance_id}.")
+    volunteer = find_volunteer(volunteer_id)
+    if not volunteer.active:
+        raise ValueError(
+            f"Volunteer {volunteer_id} is inactive and cannot be assigned."
+        )
+    role = (role or "").strip()
+    if not role:
+        raise ValueError("Role is required.")
+
+    # One-role rule
+    for existing in assignments.values():
+        if (
+            existing.performance_id == performance_id
+            and existing.volunteer_id == volunteer_id
+        ):
+            raise ValueError(
+                f"Volunteer {volunteer_id} is already assigned to role "
+                f"{existing.role!r} in performance {performance_id}."
+            )
+
+    assignment = Assignment(
+        id=_next_assignment_id,
+        performance_id=performance_id,
+        volunteer_id=volunteer_id,
+        role=role,
+    )
+    assignments[assignment.id] = assignment
+    _next_assignment_id += 1
+    return assignment
+
+
+def confirm_assignment(assignment_id: int) -> Assignment:
+    """Mark an assignment as confirmed."""
+    try:
+        assignment = assignments[assignment_id]
+    except KeyError:
+        raise ValueError(f"No assignment with id {assignment_id}.") from None
+    assignment.status = "confirmed"
+    return assignment
+
+
+def assignments_for_performance(performance_id: int) -> list[Assignment]:
+    """Return all assignments for one performance."""
+    return [
+        a for a in assignments.values() if a.performance_id == performance_id
+    ]
+
+
+def assignments_for_volunteer(volunteer_id: int) -> list[Assignment]:
+    """Return all assignments for one volunteer."""
+    return [
+        a for a in assignments.values() if a.volunteer_id == volunteer_id
+    ]
+
+
+def roster_gaps(performance_id: int) -> list[dict]:
+    """Compare the crew call with the assignments and return the gaps.
+
+    Each entry: {role, needed, assigned, open}. Open never goes negative.
+    """
+    requirements = crew_call_for(performance_id)
+    assigned_counts: dict[str, int] = {}
+    for assignment in assignments_for_performance(performance_id):
+        if assignment.role in requirements:
+            assigned_counts[assignment.role] = (
+                assigned_counts.get(assignment.role, 0) + 1
+            )
+    gaps = []
+    for role, needed in requirements.items():
+        assigned = assigned_counts.get(role, 0)
+        gaps.append(
+            {
+                "role": role,
+                "needed": needed,
+                "assigned": assigned,
+                "open": max(needed - assigned, 0),
+            }
+        )
+    return gaps
