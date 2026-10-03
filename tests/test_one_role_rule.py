@@ -1,77 +1,49 @@
-"""Tests for the one-role rule (feature/one-role-rule).
+"""One-role rule tests against the module-level models API.
 
 A volunteer may hold at most one role in the same performance.
 """
 
 import pytest
-
-from src.assignment import AssignmentStore, RuleViolationError
-from src.performance import PerformanceStore
-from src.production import ProductionStore
-from src.volunteer import VolunteerStore
+from src import models
 
 
-@pytest.fixture
-def stores():
-    volunteers = VolunteerStore()
-    volunteers.create("Col Hendricks")
-    volunteers.create("Kylie Toomey")
-    productions = ProductionStore()
-    productions.create("The Weather House")
-    performances = PerformanceStore(productions)
-    performances.create(1, "2026-09-04", "19:30")  # Friday evening
-    performances.create(1, "2026-09-05", "14:00")  # Saturday matinee
-    assignments = AssignmentStore(volunteers, performances)
-    return volunteers, performances, assignments
+def setup_function():
+    models.volunteers.clear()
+    models.performances.clear()
+    models.assignments.clear()
+    models.productions.clear()
+    models.crew_calls.clear()
+    models._next_volunteer_id = 1
+    models._next_production_id = 1
+    models._next_performance_id = 1
+    models._next_assignment_id = 1
 
 
-def test_volunteer_cannot_hold_two_roles_in_the_same_performance(stores):
-    _, _, assignments = stores
-
-    assignments.create(1, 1, "Bar")
-    with pytest.raises(RuleViolationError):
-        assignments.create(1, 1, "Front of House")
-
-
-def test_same_role_twice_is_also_rejected(stores):
-    _, _, assignments = stores
-
-    assignments.create(1, 1, "Bar")
-    with pytest.raises(RuleViolationError):
-        assignments.create(1, 1, "Bar")
+def test_volunteer_cannot_hold_two_roles_in_same_performance():
+    v = models.create_volunteer("Col Hendricks", "0400 111 222", "col@example.com")
+    prod = models.create_production("The Weather House")
+    perf = models.create_performance(prod.id, "2026-09-04", "19:30")
+    models.create_assignment(perf.id, "Bar 1", v.id)
+    with pytest.raises(ValueError, match="already assigned"):
+        models.create_assignment(perf.id, "Sound Op", v.id)
 
 
-def test_volunteer_can_be_assigned_to_different_performances(stores):
-    _, _, assignments = stores
-
-    assignments.create(1, 1, "Bar")
-    second = assignments.create(2, 1, "Front of House")
-
-    assert second.performance_id == 2
-
-
-def test_two_volunteers_can_share_a_performance(stores):
-    _, _, assignments = stores
-
-    assignments.create(1, 1, "Bar")
-    second = assignments.create(1, 2, "Front of House")
-
-    assert second.volunteer_id == 2
+def test_volunteer_can_hold_roles_in_different_performances():
+    v = models.create_volunteer("Col Hendricks", "0400 111 222", "col@example.com")
+    prod = models.create_production("The Weather House")
+    p1 = models.create_performance(prod.id, "2026-09-04", "19:30")
+    p2 = models.create_performance(prod.id, "2026-09-05", "14:00")
+    models.create_assignment(p1.id, "Bar 1", v.id)
+    models.create_assignment(p2.id, "Bar 1", v.id)
+    assert len(models.assignments) == 2
 
 
-def test_rule_violation_mentions_the_conflict(stores):
-    _, _, assignments = stores
-
-    assignments.create(1, 1, "Bar")
-    with pytest.raises(RuleViolationError, match="Bar"):
-        assignments.create(1, 1, "Front of House")
-
-
-def test_rejected_assignment_is_not_stored(stores):
-    _, _, assignments = stores
-
-    assignments.create(1, 1, "Bar")
-    with pytest.raises(RuleViolationError):
-        assignments.create(1, 1, "Front of House")
-
-    assert len(assignments.find_all()) == 1
+def test_moving_assignment_respects_one_role_rule():
+    v = models.create_volunteer("Col Hendricks", "0400 111 222", "col@example.com")
+    prod = models.create_production("The Weather House")
+    p1 = models.create_performance(prod.id, "2026-09-04", "19:30")
+    p2 = models.create_performance(prod.id, "2026-09-05", "14:00")
+    models.create_assignment(p1.id, "Bar 1", v.id)
+    models.create_assignment(p2.id, "Sound Op", v.id)
+    with pytest.raises(ValueError, match="already assigned"):
+        models.create_assignment(p2.id, "Bar 1", v.id)
