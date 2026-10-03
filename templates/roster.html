@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Roster — {{ production.title }}{% endblock %}
+{% block content %}
+<h2>Roster — {{ production.title }}</h2>
+<p>{{ performance.performance_date }} at {{ performance.start_time }}</p>
+{% if rows %}
+<table>
+    <tr>
+        <th>Role</th>
+        <th>Needed</th>
+        <th>Assigned</th>
+        <th>Open</th>
+        <th>Crew</th>
+    </tr>
+    {% for row in rows %}
+    <tr>
+        <td>{{ row.role }}</td>
+        <td>{{ row.needed }}</td>
+        <td>{{ row.assigned }}</td>
+        <td class="{{ 'hole' if row.open else 'filled' }}">{{ row.open }}</td>
+        <td>{{ row.names | join(', ') if row.names else '—' }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p class="empty">No crew call defined for this performance yet.</p>
+{% endif %}
+<p><a href="{{ url_for('views.production_detail', production_id=production.id) }}">&larr; Back to production</a></p>
+{% endblock %}
