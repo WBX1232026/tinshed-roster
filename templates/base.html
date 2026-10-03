@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Tinshed Roster{% endblock %}</title>
+    <style>
+        body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 60rem; padding: 0 1rem; color: #1f2937; }
+        nav a { margin-right: 1rem; }
+        table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+        th, td { border: 1px solid #d1d5db; padding: 0.4rem 0.6rem; text-align: left; }
+        th { background: #f3f4f6; }
+        .hole { color: #b91c1c; font-weight: bold; }
+        .filled { color: #15803d; }
+        footer { margin-top: 2rem; color: #6b7280; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <h1>Tinshed Roster</h1>
+    <nav>
+        <a href="{{ url_for('views.index') }}">Productions</a>
+        <a href="{{ url_for('views.volunteers') }}">Volunteers</a>
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+    <footer>Show scheduling and volunteer crew rostering system for The Tinshed Players Inc.</footer>
+</body>
+</html>

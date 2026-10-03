@@ -1,0 +1,1 @@
+"""Tinshed Roster application package."""
