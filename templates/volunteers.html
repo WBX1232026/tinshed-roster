@@ -12,7 +12,7 @@
     </tr>
     {% for volunteer in volunteers %}
     <tr>
-        <td><a href="{{ url_for('views.personal', volunteer_id=volunteer.id) }}">{{ volunteer.name }}</a></td>
+        <td><a href="{{ url_for('views.personal_view', volunteer_id=volunteer.id) }}">{{ volunteer.name }}</a></td>
         <td>{{ volunteer.phone }}</td>
         <td>{{ volunteer.email }}</td>
         <td>{{ "active" if volunteer.active else "inactive" }}</td>
