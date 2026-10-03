@@ -2,27 +2,25 @@
 
 _Recorder: Yao Tingran (Business/Requirements Lead + Recorder)_
 
-> Dates and attendance below are indicative — replace with the actual meeting dates and attendees for your team.
-
 ---
 
-## Meeting 1 — Sprint Kick-off
+## Meeting 1 — Project Kickoff
 
-**Date:** Sprint Week 0
+**Date:** 2026-09-22
 **Attendees:** Zhang Yixuan (PM), Yao Tingran (Requirements), Li Qize (Technical)
 
 **Agenda**
-1. Confirm project scope and division of work.
-2. Agree the tooling and branch/PR workflow.
-3. Assign roles and responsibilities.
+1. Align on the case requirements.
+2. Agree the scope and division of work.
+3. Agree tooling and the branch/PR workflow.
 
 **Discussion**
-- Confirmed the sprint scope against the README: Volunteers, Productions/Performances, Crew Calls, Assignments, Views.
+- Confirmed the sprint scope: Volunteers, Productions/Performances, Crew Calls, Assignments, Views.
 - Agreed to use GitHub with feature/documentation branches and pull-request review for every change.
-- Agreed the Definition of Done: code committed on a named branch, acceptance criteria demonstrated, reviewed via PR, automated tests passing.
+- Confirmed the Definition of Done from the README.
 
 **Decisions**
-- Scope is frozen to the five epics; out-of-scope items go to the product backlog.
+- Scope frozen to the five epics; out-of-scope items go to the product backlog.
 - Every story gets a branch named for the story; no direct commits to `main`.
 
 **Action items**
@@ -32,48 +30,70 @@ _Recorder: Yao Tingran (Business/Requirements Lead + Recorder)_
 
 ---
 
-## Meeting 2 — Requirements Review
+## Meeting 2 — Project Charter Approval
 
-**Date:** Sprint Week 1
+**Date:** 2026-09-23
+**Attendees:** Zhang Yixuan (PM), Yao Tingran (Requirements), Li Qize (Technical)
+
+**Agenda**
+1. Review the project charter.
+2. Finalise scope, budget and constraints.
+
+**Discussion**
+- Reviewed the charter covering project objectives, scope, budget and constraints.
+- Confirmed the client accepts either a Python CLI or a web application, with no additional requirements imposed.
+
+**Decisions**
+- Project charter approved.
+
+**Action items**
+- [ ] Zhang Yixuan: publish the approved charter and schedule.
+
+---
+
+## Meeting 3 — Requirements and Scope Approval
+
+**Date:** 2026-09-25
 **Attendees:** Zhang Yixuan (PM), Yao Tingran (Requirements), Li Qize (Technical)
 
 **Agenda**
 1. Walk through the user stories and acceptance criteria.
-2. Resolve open questions on the one-role rule and persistence.
+2. Confirm exclusions and the backlog.
+3. Resolve open questions on the one-role rule and persistence.
 
 **Discussion**
 - Reviewed US-1 to US-11 and confirmed the acceptance criteria are testable.
 - Clarified that the one-role rule is per performance, not per production.
-- Confirmed persistence requirement: a volunteer saved in one session must still exist after restart.
+- Confirmed persistence: a volunteer saved in one session must still exist after restart.
+- Recorded out-of-scope items in the product backlog (ticketing, membership fees, RSA/Blue Card matching, notifications, etc.).
 
 **Decisions**
-- User stories and acceptance criteria approved as drafted in `docs/user-stories.md`.
+- Requirements and scope approved, as captured in `docs/user-stories.md` and `docs/requirements.md`.
 - One-role rule applies to both create and move paths.
 
 **Action items**
-- [ ] Yao Tingran: push `docs/user-stories.md` and open a PR for review.
+- [ ] Yao Tingran: push `docs/user-stories.md` and `docs/requirements.md`, open a PR for review.
 - [ ] Li Qize: implement the one-role rule with a test.
 
 ---
 
-## Meeting 3 — Sprint Review / Handover
+## Meeting 4 — Design Approval
 
-**Date:** Sprint Week 3
+**Date:** 2026-09-30
 **Attendees:** Zhang Yixuan (PM), Yao Tingran (Requirements), Li Qize (Technical)
 
 **Agenda**
-1. Demo the delivered scope against the acceptance criteria.
-2. Record acceptance testing results.
-3. Agree the handover contents.
+1. Review the data model and architecture.
+2. Confirm rules (one-role rule) and the persistence approach.
 
 **Discussion**
-- Demonstrated volunteer creation, one-role enforcement, and the roster gap view.
-- Recorded acceptance testing results in `docs/acceptance-testing.md`.
-- Agreed the six-part handover structure (delivered/not-delivered, run instructions, known issues, credentials, next-sprint backlog).
+- Reviewed the data model (volunteers, productions, performances, crew calls, assignments).
+- Confirmed the one-role-per-performance rule is enforced on every create and update path.
+- Confirmed sample data only; no real member privacy is stored.
 
 **Decisions**
-- Sprint scope delivered; remaining items deferred to the product backlog.
+- Design approved (data model, rules, architecture).
 
 **Action items**
-- [ ] Yao Tingran: finalise `docs/handover.md` and open the acceptance-testing PR.
-- [ ] Team: review and merge the documentation PRs.
+- [ ] Li Qize: implement the agreed data model and rules.
+- [ ] Yao Tingran: draft the acceptance testing record and handover document.
