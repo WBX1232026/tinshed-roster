@@ -62,7 +62,7 @@ def production_detail(production_id: int):
 
 
 @views_bp.route("/volunteers/<int:volunteer_id>")
-def personal(volunteer_id: int):
+def personal_view(volunteer_id: int):
     """A volunteer's own assignments across the season."""
     volunteer = models.volunteers.get(volunteer_id)
     if volunteer is None:
@@ -91,7 +91,7 @@ def personal(volunteer_id: int):
 
 
 @views_bp.route("/performances/<int:performance_id>/roster")
-def roster(performance_id: int):
+def roster_gap_view(performance_id: int):
     """Roster for one performance: roles, how many are filled and open, and who is on."""
     performance = models.performances.get(performance_id)
     if performance is None:
