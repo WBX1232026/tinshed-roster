@@ -4,6 +4,7 @@
 <h2>{{ production.title }}</h2>
 {% for performance in performances %}
 <h3>{{ performance.performance_date }} at {{ performance.start_time }}</h3>
+<p><a href="{{ url_for('views.roster', performance_id=performance.id) }}">View roster</a></p>
 {% if performance.gaps %}
 <table>
     <tr>
