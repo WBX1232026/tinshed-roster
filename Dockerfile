@@ -1,14 +1,12 @@
-FROM python:3.12-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install dependencies first so they are cached between image builds.
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Application code and sample data.
-COPY src/ src/
-COPY data/ data/
+COPY . .
 
-ENTRYPOINT ["python", "src/main.py"]
-CMD ["--demo"]
+EXPOSE 5000
+
+CMD ["python", "-m", "flask", "--app", "src.app", "run", "--host=0.0.0.0"]
