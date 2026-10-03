@@ -1,8 +1,10 @@
+version: '3.8'
+
 services:
-  tinshed-roster:
+  app:
     build: .
-    container_name: tinshed-roster
-    # Keep any snapshots written by the app on the host.
-    volumes:
-      - ./data:/app/data
-    command: ["python", "src/main.py", "--demo"]
+    ports:
+      - "5000:5000"
+    environment:
+      - APP_ENV=development
+      - DATABASE_URL=sqlite:///data/tinshed_roster.db

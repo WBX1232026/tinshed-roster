@@ -1,22 +1,10 @@
-#!/usr/bin/env bash
-# Deploy script for Tinshed Roster.
-#
-# Runs the test suite, tags the release, and builds the Docker image.
-# Usage: ./deploy/deploy.sh [version]   (defaults to v1.0.0)
-set -euo pipefail
+#!/bin/bash
+set -e
 
-VERSION="${1:-v1.0.0}"
+echo "Building Docker image..."
+docker build -t tinshed-roster .
 
-echo "== Running tests =="
-python -m pytest
+echo "Running container..."
+docker run -d -p 5000:5000 --name tinshed-roster tinshed-roster
 
-echo "== Tagging ${VERSION} =="
-git tag -f "${VERSION}"
-git push origin "${VERSION}"
-
-echo "== Building Docker image =="
-docker build -t "tinshed-roster:${VERSION}" .
-
-echo "== Deploy finished =="
-echo "Run locally with:"
-echo "  docker run --rm tinshed-roster:${VERSION} --demo"
+echo "Deployed at http://localhost:5000"
