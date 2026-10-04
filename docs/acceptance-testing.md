@@ -24,3 +24,19 @@
 3. View the roster.
 4. Confirm filled and open positions are shown correctly.
 **Result:** PASS
+
+### Scenario 4: Personal roster view
+1. Create a volunteer.
+2. Assign the volunteer to two performances.
+3. View the volunteer's assignments.
+4. Confirm both assignments are shown, and no other volunteer's assignments appear.
+**Result:** PASS
+
+## Summary
+
+| Scenario | Result |
+|---|---|
+| Create a volunteer | PASS |
+| One-role rule | PASS |
+| Roster gap view | PASS |
+| Personal roster view | PASS |
