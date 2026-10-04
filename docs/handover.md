@@ -2,47 +2,74 @@
 
 ## 1. What was delivered against scope
 
-- **Volunteers** (US-1, US-2, US-3): create, find, update and deactivate a volunteer; deactivation preserves existing assignments.
-- **Productions and performances** (US-4, US-5): create a production, add/change/remove performances, list them in date and time order.
-- **Crew calls** (US-6): record roles and the number needed per performance.
-- **Assignments** (US-7, US-8, US-9): assign, change and remove assignments; new assignments default to "unconfirmed"; the one-role-per-performance rule is enforced.
-- **Views** (US-10, US-11): roster view showing filled and open positions; personal roster view listing a volunteer's own assignments.
-- **Requirements artefacts**: requirements analysis and scope definition (`docs/requirements.md`), user stories with acceptance criteria (`docs/user-stories.md`), meeting minutes (`docs/meeting-minutes.md`), and an acceptance testing record (`docs/acceptance-testing.md`).
+| Capability | Jira Story | Status |
+|---|---|---|
+| Volunteer records | US-1, US-2, US-3 | Delivered |
+| Productions and performances | US-4, US-5 | Delivered |
+| Per-performance crew call | US-6 | Delivered |
+| Assignments | US-7, US-9 | Delivered |
+| One-role rule | US-8 | Delivered |
+| Roster gap view | US-10 | Delivered |
+| Personal roster view | US-11 | Delivered |
 
 ## 2. What was not delivered, and why
 
-- Out-of-scope items (from `docs/requirements.md` and the README) are deferred to the product backlog and were not part of this sprint: ticketing and box office sales, membership fees and renewals, RSA/Blue Card/qualification matching, rehearsals and casting, venue booking clashes, grant acquittal, equipment inventory, email/SMS notifications, volunteer shift swaps, hours reporting, and TicketNest integration.
-- No in-scope story was knowingly dropped; any partial work is listed under Known issues below.
+The following items were requested by stakeholders but are out of scope for this sprint. They remain in the product backlog.
+
+| Item | Reason | Backlog location |
+|---|---|---|
+| Ticketing and box office sales | Out of scope | Product backlog |
+| Membership fees and renewals | Out of scope | Product backlog |
+| RSA/Blue Card/qualification matching | Out of scope | Product backlog |
+| Rehearsals and casting | Out of scope | Product backlog |
+| Venue booking clashes | Out of scope | Product backlog |
+| Grant acquittal | Out of scope | Product backlog |
+| Equipment inventory | Out of scope | Product backlog |
+| Email/SMS notifications | Out of scope | Product backlog |
+| Volunteer shift swaps | Out of scope | Product backlog |
+| Hours reporting | Out of scope | Product backlog |
+| TicketNest integration | Out of scope | Product backlog |
 
 ## 3. Setup and run instructions from GitHub
 
-```bash
-git clone https://github.com/WBX1232026/tinshed-roster.git
-cd tinshed-roster
-python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-python src/main.py         # run the application
-pytest                     # run the tests
-```
+1. Clone the repository:
+   git clone https://github.com/WBX1232026/tinshed-roster.git
+   cd tinshed-roster
+2. Create a virtual environment:
+   python -m venv venv
+   source venv/bin/activate
+3. Install dependencies:
+   pip install -r requirements.txt
+4. Run the application:
+   python -m flask --app src.app run
+5. Open http://127.0.0.1:5000 in your browser.
+6. Run the tests:
+   pytest
 
 ## 4. Known issues and limitations
 
-- Input validation is lightweight: empty names and duplicate contact details are not yet rejected with dedicated messages.
-- The interface is text-driven (CLI); no web or mobile UI is included this sprint.
-- No email/SMS notifications (deferred to the backlog), so volunteers must check their personal roster view for assignments.
-- The one-role rule is enforced per performance; cross-performance conflicts (e.g. the same volunteer on two simultaneous performances) are not checked.
+- Data is stored in memory or SQLite; no multi-user concurrency.
+- No authentication or roles.
+- No deployment to a public server.
+- Only sample data is used; no real member privacy data.
 
 ## 5. Credentials, configuration and environment
 
-- Local development requires Python 3.10+ and Git (see README "Prerequisites").
-- No secrets are stored in the repository; a sample `.env.example` is provided for environment variables.
-- Do not commit credentials or environment-specific configuration.
+- `.env.example` contains sample configuration.
+- No real credentials are stored.
+- Sample data is in `data/sample_volunteers.csv` and `data/sample_productions.csv`.
 
 ## 6. Recommended next-sprint backlog
 
-- Strengthen validation (empty names, duplicate contact details).
-- Add automated tests for the edge cases identified during acceptance testing.
-- Consider a simple web UI for the coordinator and volunteers.
-- Cross-performance conflict checking for the one-role rule.
-- Track stories against Jira and record decisions in Confluence as required by the Definition of Done.
+| Priority | Item | Reason |
+|---|---|---|
+| 1 | Persist data in SQLite | Needed for real use |
+| 2 | Add login and roles | Only the coordinator should manage the roster |
+| 3 | Add email or SMS notification | Reduce phone calls |
+| 4 | Add shift swap feature | Reduce coordinator workload |
+| 5 | Add hours reporting | Support grant acquittal |
+| 6 | Add ticketing integration | Single place for the season |
+| 7 | Add membership renewals | Reduce admin |
+| 8 | Add RSA/Blue Card tracking | Compliance |
+| 9 | Add equipment inventory | Support grant applications |
+| 10 | Add public roster view | Volunteers can check without logging in |
