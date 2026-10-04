@@ -58,3 +58,18 @@ The following items were requested by stakeholders but are out of scope for this
 - `.env.example` contains sample configuration.
 - No real credentials are stored.
 - Sample data is in `data/sample_volunteers.csv` and `data/sample_productions.csv`.
+
+## 6. Recommended next-sprint backlog
+
+| Priority | Item | Reason |
+|---|---|---|
+| 1 | Persist data in SQLite | Needed for real use |
+| 2 | Add login and roles | Only the coordinator should manage the roster |
+| 3 | Add email or SMS notification | Reduce phone calls |
+| 4 | Add shift swap feature | Reduce coordinator workload |
+| 5 | Add hours reporting | Support grant acquittal |
+| 6 | Add ticketing integration | Single place for the season |
+| 7 | Add membership renewals | Reduce admin |
+| 8 | Add RSA/Blue Card tracking | Compliance |
+| 9 | Add equipment inventory | Support grant applications |
+| 10 | Add public roster view | Volunteers can check without logging in |
