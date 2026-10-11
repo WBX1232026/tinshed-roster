@@ -22,11 +22,11 @@ Related document: Section 4.1 of the Procurement Plan.
 | Web framework | FastAPI | Great for APIs, but the app is a small CLI/web hybrid; Flask is simpler to teach to the next maintainer |
 | Database | PostgreSQL | Requires a server; the RFP asks for a lightweight file-based store for local use |
 | Database | JSON file | No query support and manual locking; SQLite gives the same single-file property with SQL |
-| Testing | unittest | More verbose; pytest's fixtures reduce duplication across the 88 tests |
+| Testing | unittest | More verbose; pytest's fixtures reduce duplication across the 106 tests |
 | CI | Jenkins | Requires hosting; GitHub Actions is free and already integrated with the repository |
 
 ## Feasibility summary
 
 - All components are open source with zero licensing cost (see Procurement Plan 4.3).
 - Every component installs with a single `pip install -r requirements.txt` command.
-- The full test suite (88 tests) runs in under 5 minutes, satisfying the RFP non-functional requirement.
+- The full test suite (106 tests) runs in under 5 minutes, satisfying the RFP non-functional requirement.

@@ -97,3 +97,80 @@ _Recorder: Yao Tingran (Business/Requirements Lead + Recorder)_
 **Action items**
 - [ ] Li Qize: implement the agreed data model and rules.
 - [ ] Yao Tingran: draft the acceptance testing record and handover document.
+
+---
+
+## Meeting 5 — Sprint 2 Planning
+
+**Date:** 2026-10-01
+**Attendees:** Zhang Yixuan (PM), Yao Tingran (Sprint 2 PM), Li Qize (Technical)
+
+**Agenda**
+1. Review the Sprint 1 outcome.
+2. Select the Sprint 2 backlog and set the sprint goal.
+
+**Discussion**
+- Sprint 1 delivered Volunteers, Productions/Performances, Crew Calls and Assignments.
+- The two view stories (roster gap view, personal roster view) and validation hardening remain.
+
+**Decisions**
+- Sprint 2 goal: finish US-11 and US-12, and harden input validation.
+- Yao Tingran takes the PM role for Sprint 2; QA/acceptance work assigned to Yao.
+
+**Action items**
+- [ ] Li Qize: implement US-11 and US-12, open PRs.
+- [ ] Yao Tingran: draft test cases TR-T01–TR-T08 and the UAT plan.
+
+---
+
+## Meeting 6 — Daily Scrum
+
+**Date:** 2026-10-08
+**Attendees:** Zhang Yixuan (PM), Yao Tingran (Sprint 2 PM), Li Qize (Technical)
+
+**Updates**
+- Li Qize: US-11 and US-12 implemented; PRs #16 and #17 open for review.
+- Yao Tingran: test cases drafted; UAT scenarios defined.
+- Zhang Yixuan: no blockers.
+
+**Blockers**
+- None.
+
+---
+
+## Meeting 7 — Sprint 2 Review
+
+**Date:** 2026-10-11
+**Attendees:** Zhang Yixuan (PM), Yao Tingran (Sprint 2 PM), Li Qize (Technical)
+
+**Agenda**
+1. Demo the completed sprint work.
+2. Gather client acceptance.
+
+**Discussion**
+- US-11 (roster gap view) and US-12 (personal roster view) demonstrated against the "Weather House" sample season.
+- Client personas (Judith, Bec, Ravi) accepted both stories.
+
+**Decisions**
+- Both stories accepted; duplicate-email validation logged as TR-BUG-01 for the next sprint.
+
+**Action items**
+- [ ] Yao Tingran: record the review outcome and UAT results in `docs/uat.md`.
+
+---
+
+## Meeting 8 — Sprint 2 Retrospective
+
+**Date:** 2026-10-11
+**Attendees:** Zhang Yixuan (PM), Yao Tingran (Sprint 2 PM), Li Qize (Technical)
+
+**What went well**
+- Clear Given/When/Then acceptance criteria kept scope tight.
+- The two-layer architecture (store/service + web) kept the app testable (106 tests green).
+
+**What to improve**
+- Validation gaps (e.g. duplicate email) were found late — add a validation checklist to the Definition of Done.
+
+**Actions**
+- Add validation edge cases to the next-sprint backlog.
+- Keep the 106-test suite green in CI.
