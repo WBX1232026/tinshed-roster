@@ -30,9 +30,8 @@ Volunteer rostering currently depends on a Facebook group, group texts, an exerc
 | FR-8 | Assign a volunteer to a role for a performance; new assignments default to "unconfirmed" | US-7 |
 | FR-9 | Enforce the one-role rule: at most one role per volunteer per performance, refused with a reason, on both create and move | US-8 |
 | FR-10 | Change or remove an assignment; removal leaves the position open | US-9 |
-| FR-11 | Track "confirmed" and "notified" as two separate flags on an assignment | US-10 |
-| FR-12 | Roster view showing filled and open positions | US-11 |
-| FR-13 | Personal roster view listing a volunteer's own assignments | US-12 |
+| FR-11 | Roster view showing filled and open positions | US-10 |
+| FR-12 | Personal roster view listing a volunteer's own assignments | US-11 |
 
 ## 4. Non-functional Requirements
 
@@ -46,7 +45,7 @@ Volunteer rostering currently depends on a Facebook group, group texts, an exerc
 - Volunteers: create, find, update, deactivate.
 - Productions and performances: create, update, delete; performances carry a date and start time.
 - Per-performance crew call: roles, number needed, and call times; calls differ between evening and matinee.
-- Assignments: create, change, delete; new assignments default to "unconfirmed"; "confirmed" and "notified" tracked separately.
+- Assignments: create, change, delete; new assignments default to "unconfirmed" and can then be marked "confirmed".
 - One-role rule: a volunteer may hold at most one role in the same performance.
 - Views: performance/production roster (filled and open positions); volunteer's personal roster.
 
