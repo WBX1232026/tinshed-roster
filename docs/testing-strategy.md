@@ -1,7 +1,7 @@
 # Testing Strategy
 
 Owner: Li Qize (Technical Lead)
-Framework: pytest. Suite: 88 tests, 14 test files, `tests/` directory.
+Framework: pytest. Suite: 106 tests, 19 test files, `tests/` directory.
 
 ## Goals
 
